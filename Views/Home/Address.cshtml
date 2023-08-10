@@ -21,6 +21,8 @@
         const selRoad = document.querySelector('#selectRoad');
         const theDiv = document.querySelector('#div1');
 
+        //一般function的寫法
+        /*
         function loadCity() {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', '@Url.Content("/api/cities")');
@@ -33,7 +35,20 @@
 
             })
         }
+        */
 
+        //作業六:改用fetch與async await的寫法
+        async function loadCity() {
+            const response = await fetch('@Url.Content("/api/Cities")')
+            const datas = await response.json()
+            const cities = datas.map(city => `<option value='${city}'>${city}</option>`)
+            selCity.innerHTML = cities.join("");
+            loadDistrict()
+        }
+
+
+        //一般function的寫法
+        /*
         function loadDistrict() {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `@Url.Content("/api/districts")?city=${selCity.value}`);
@@ -47,7 +62,19 @@
 
             })
         }
+        */
 
+        //作業六:改用fetch與async await的寫法
+        async function loadDistrict() {
+            const response = await fetch(`@Url.Content("/api/districts")?city=${selCity.value}`)
+            const datas = await response.json()
+            const districts = datas.map(district => `<option value='${district}'>${district}</option>`)
+            selDistrict.innerHTML = districts.join("");
+            loadRoad()
+        }
+
+        //一般function的寫法
+        /*
         function loadRoad() {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `@Url.Content("/api/roads")?siteId=${selDistrict.value}`);
@@ -59,6 +86,17 @@
 
                 show();
             })
+        }
+        */
+
+        //作業六:改用fetch與async await的寫法
+        async function loadRoad() {
+            const response = await fetch(`@Url.Content("/api/roads")?siteId=${selDistrict.value}`)
+            const datas = await response.json()
+            const roads = datas.map(road => `<option value='${road}'>${road}</option>`)
+            selRoad.innerHTML = roads.join("");
+
+            show();
         }
 
         loadCity()
@@ -80,5 +118,7 @@
         function show() {
             theDiv.textContent = `${selDistrict.value} ${selRoad.value}`;
         }
+
+
     </script>
 }
