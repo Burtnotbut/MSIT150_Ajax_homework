@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "GetDemo";
+}
+
+<h1>GetDemo</h1>
+
+<div class="alert alert-info" id="div1"></div>
+
+@section Styles{
+    <style>
+    </style>
+
+}
+@section Scripts{
+    <script>
+        //步驟一建立Ajax物件  XMLHttpRequest、fetch()、jQuery、axios.....
+        const xhr = new XMLHttpRequest();
+
+        //步驟二對伺服器發出要求
+        //xhr.open('GET', '/api/index');
+        //預設為true 表示非同步的執行模式
+        // xhr.open('GET','/api/index',false);  //false 表示改成同步的執行模式
+        
+        const name = "Jack";
+        const age = 25;
+        //  xhr.open('GET', '@Url.Content("/api/getdemo")?name=Mary&age=28')
+        xhr.open('GET', `@Url.Content("/api/getdemo")?name=${name}&age=${age}`)
+
+        xhr.send();
+
+        //步驟三接收伺服器回傳的結果
+        xhr.addEventListener('load', () => {
+            const data = xhr.responseText;
+            
+            //步驟四讀出資料:如果檔案資料json或xml
+
+            //步驟五顯示資料在網頁上
+            document.querySelector('#div1').innerHTML = `<h3>${data}</h3>`
+            //找到想要控制的標籤，要抓到id用#井字符號，要抓到class類別用.點符號
+            //innerHTML是塞入內文
+        })
+
+
+    </script>
+}

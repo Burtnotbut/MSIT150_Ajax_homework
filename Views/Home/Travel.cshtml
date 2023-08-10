@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "Travel";
+}
+
+<div class="card" style="width: 18rem;" id="div2">
+
+</div>
+
+<h1>Travel</h1>
+<div class="alert alert-info" id="div1"></div>
+
+
+
+
+
+@*<div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>*@
+
+@section Scripts{
+    <script src="~/datas/travel.js"></script>
+    <script>
+        const p = spots.CommonFormat.Section;
+        const imageURL = p[0].file.img[0].text;
+
+        // 假設你已經載入了 JSON 資料到 spots 變數中
+        const datas = spots.CommonFormat.Section.map(employee => {
+            const { stitle, xbody, xurl, file, img } = employee;
+            
+
+
+            return(
+                `
+             <div class="card" style="width: 18rem;">
+            <img src="${img } " class="card-img-top">
+            <div class="card-body">
+                        <h2 class="card-title" > ${ stitle } </h2>
+                        < p class="card-text" > ${ xbody } </p>
+                         <a href="${xurl}" class="btn btn-primary">連結</a>
+            </div>
+            </div>
+                `
+            )
+        });
+
+        document.querySelector('#div1').innerHTML = datas
+
+        const data2 = spots.CommonFormat.Section.forEach(many => {
+            const img2 = many.file.img[0].text;
+            const stitle2 = many.stitle;
+            const xbody = many.xbody;
+            const xurl2 = many.xurl;
+
+            return (
+                `
+                     <div class="card" style="width: 18rem;">
+                    <img src="${img2} " class="card-img-top">
+                    <div class="card-body">
+                                <h2 class="card-title" > ${stitle2} </h2>
+                                < p class="card-text" > ${xbody2} </p>
+                                 <a href="${xurl2}" class="btn btn-primary">連結</a>
+                    </div>
+                    </div>
+                        `
+            )
+        });
+
+        document.querySelector('#div2').innerHTML = data2
+
+
+        //document.querySelector('#div2').innerHTML = `<h3>${data}</h3>`
+
+            //< img src = "" class="card-img-top" id = "img1" >
+
+
+    </script>
+}
+
+@section Styles{
+
+}

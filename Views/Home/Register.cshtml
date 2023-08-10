@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        @*<form action="~/api/getdemo" method="post">*@
+        @*上為用表單form設定去寄送資料*@
+         <form id="form1">
+            @*上為用formData的寫法*@
+            <div class="mb-3">
+                <label for="userName" class="form-label">User Name：</label>
+                <input type="text" class="form-control" id="userName" name="Name">
+                <div id="NameMesssage" class="alert alert-warning"></div>
+            </div>
+            <div class="mb-3">
+                <label for="UserEmail" class="form-label">User Email：</label>
+                <input type="email" class="form-control" id="UserEmail" name="Email">
+            </div>
+            <div class="mb-3">
+                <label for="userAge" class="form-label">User Age：</label>
+                <input type="number" class="form-control" id="userAge" name="Age">
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Photo：</label>
+                <input class="form-control" type="file" id="formFile" name="file">
+            </div>
+            <button id="button1" type="submit" class="btn btn-primary">送出</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3">
+        <a href="https://www.ispan.com.tw" id="a1">ispan</a>
+    </div>
+</div>
+
+@section Styles{
+    <style></style>
+}
+
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#button1');
+        const theA = document.querySelector('#a1')
+        const txtName = document.querySelector('#userName')
+        const txtAge = document.querySelector('#userAge')
+        const theDiv = document.querySelector('#div1')
+        const theTips = document.querySelector('#tips')
+
+        btn.addEventListener('click', event => {
+            //當按鈕btn被點擊click時
+
+            event.preventDefault(); 
+            //防止預設行為的發生
+
+
+            //用formData的寫法，是傳統方法，下方有fetch寫法
+            /*
+            //步驟一建立Ajax物件: XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+
+            //步驟二對伺服器發出要求(Request)
+            xhr.open('POST', '@Url.Content("/api/Register")')
+            //xhr.open('POST', '/api/register');
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            //xhr.send(`name=${txtName.value}&age=${txtAge.value}`);
+
+            //改用formData的寫法: 將整個form表單打包傳遞出去
+            const formData = new FormData(document.querySelector('#form1'));
+            xhr.send(formData);
+
+            //步驟三接收伺服器回傳的資料
+            xhr.addEventListener('load', () => {
+
+                //步驟四讀資料
+                const data = xhr.responseText;
+
+                //步驟五顯示資料在網頁上
+                theDiv.innerHTML = data;
+            })
+            */
+
+        //用fetch的寫法，是最新的寫法
+        const formData = new FormData(document.querySelector('#form1'));
+            //用FormData將整個表單form1打包傳遞出去
+
+        fetch('@Url.Content("/api/register")', {
+            body: formData,
+            method: 'POST'
+                //改用 fetch 傳送POST資料formData到server端
+
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("新增成功")
+                    //瀏覽器頁面跳出通知
+
+                    location.href = '@Url.Content("/members")'
+                    //用location.href來轉頁，實現頁面導向members.cshtml
+
+                } else {
+                    alert("有錯誤!!")
+                    //瀏覽器頁面跳出通知
+                }
+            })
+
+         })
+
+        theA.addEventListener('click', event => {
+            //當連結theA被點擊click時
+
+            if (!window.confirm("真的要去嗎??")) {
+                //window.confirm會生成一個確定或取消的框框
+                //若使用者選取消false則!false-->true則觸發下面程式碼
+
+                event.preventDefault();
+                //防止預設行為的發生
+                //如果事件可以被取消，就取消事件（即取消事件的預設行為）
+                //但不會影響事件的傳遞，事件仍會繼續傳遞。
+            }
+        })
+
+        //作業三 檢查帳號是否存在
+        //在Register.cshtml中，使用者輸入姓名離開後，透過Ajax技術將姓名送到api / CheckAccount Action
+        //在 CheckAccount Action 中檢查帳號是否存在，將檢查結果回傳給Client端顯示
+        txtName.addEventListener('focus', event => {
+            //當按鈕btn被點擊click時
+
+            event.preventDefault();
+            //防止預設行為的發生
+
+            //步驟一建立Ajax物件: XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+
+            //步驟二對伺服器發出要求(Request)
+
+            xhr.open('POST', '/api/CheckAccount');
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            //xhr.send(`name=${txtName.value}&age=${txtAge.value}`);
+
+            //改用formData的寫法: 將整個form表單打包傳遞出去
+            const formData = new FormData(document.querySelector('#form1'));
+            xhr.send(formData);
+
+            //步驟三接收伺服器回傳的資料
+            xhr.addEventListener('load', () => {
+
+                //步驟四讀資料
+                const data = xhr.responseText;
+
+                //步驟五顯示資料在網頁上
+                theDiv.innerHTML = data;
+            })
+
+        })
+
+    </script>
+}

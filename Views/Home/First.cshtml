@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "First";
+}
+
+<h1>First</h1>
+<input type="text" />
+<button id="button1" class="btn btn-primary">Click</button>
+<button id="button2" class="btn btn-danger">Cancel</button>
+<img src="~/images/Walk.gif" id="loading" />
+<div class="alert alert-info" id="div1"></div>
+
+@section Styles{
+    <style>
+        #loading {
+            display: none
+            /*剛開始載入時，先將照片隱藏none起來*/
+        }
+    </style>
+}
+
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#button1');
+        //用querySelector將button1綁定給新常數btn
+
+        const btnCancel = document.querySelector('#button2');
+        //用querySelector將button2綁定給新常數btnCancel
+
+        const myDiv = document.querySelector('#div1');
+        //用querySelector將div1綁定給新常數myDiv
+
+        const imgWalk = document.querySelector('#loading');
+        //用querySelector將loading綁定給新常數imgWalk
+
+        //步驟一建立Ajax物件: XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+
+        //發生 loadstart 事件
+        xhr.addEventListener('loadstart', () => {
+
+            btn.setAttribute('disabled', 'disabled');
+            //上面程式碼，讓按鈕btn加入set不能按disabled的屬性Attribute
+            //第一個參數是你要修改的屬性名稱，第二個是要改成的內容
+
+            btn.textContent = "執行中...."
+            //textContent是內文字樣
+
+            imgWalk.style.display = "inline"
+            //display = "inline" 是顯現出來
+
+            myDiv.innerHTML += `<h3>Ajax開始執行loadstart</h3>`
+            //innerHTML是內文字樣
+        })
+
+        //timeout事件是根據timeout屬性的設定來觸發，這裡用於網頁執行等太久
+        xhr.addEventListener('timeout', () => {
+
+            myDiv.innerHTML += `<h3>伺服器忙碌中，請稍後再來</h3>`
+            //innerHTML是內文字樣
+        })
+
+        //abort 事件是abort()方法被執行時會觸發，這裡用於使用者自行取消執行
+        xhr.addEventListener('abort', () => {
+
+            myDiv.innerHTML += `<h3>您停止了程式的執行</h3>`
+            //innerHTML是內文字樣
+        })
+
+        //發生 loadend 事件
+        xhr.addEventListener('loadend', () => {
+
+            btn.removeAttribute('disabled');
+            //上面程式碼，讓按鈕btn移除remove不能按disabled的屬性Attribute
+
+            btn.textContent = "Click"
+            //textContent是內文字樣
+
+            imgWalk.style.display = "none"
+            //display = "none" 是隱藏起來
+
+            myDiv.innerHTML += `<h3>Ajax結束執行loadend</h3>`
+            //innerHTML是內文字樣
+        })
+
+
+        //當取消按鈕btnCancel被點擊'click'的事件發生時，執行以下箭頭方法()
+        btnCancel.addEventListener('click', () => {
+            
+            xhr.abort();
+            //停止 Ajax 程式的執行
+        })
+
+        //當執行按鈕btn被點擊'click'的事件發生時，執行以下箭頭方法()
+        btn.addEventListener('click', () => {
+
+            //步驟二對伺服器發出要求(Request)
+            xhr.open('GET', '@Url.Content("/api/index")')
+            //請都用上面的寫法來產生路徑
+
+            //路徑的四種寫法如下:
+            /*
+            xhr.open('GET', '/api/index');
+            //開發時不會錯，佈署到伺服器上就會有可能出錯
+            xhr.open('GET', '~/api/index');
+            //一定不可以用，因為~在javascript無法被識別
+            xhr.open('GET','@Url.Action("index","api")')
+            //Url.Action前面放動作action，後面放控制器controller
+            xhr.open('GET', '@Url.Content("/api/index")')
+            //Url.Content裡面放字串"string"，會在server端生成路徑，是比較好的做法
+            */
+
+
+
+            xhr.timeout = 3000;
+            //timeout是執行時間，若執行時間超過3秒，則觸發timeout事件
+
+            xhr.send();
+
+            //步驟三接收伺服器回傳的資料
+            xhr.addEventListener('load', () => {
+                const data = xhr.responseText
+
+                //步驟四讀資料 JSON XML，若檔案簡易字串，則可省略
+
+                //步驟五顯示資料在網頁上
+                myDiv.innerHTML += `<h3>${data}</h3>`
+            })
+        })
+    </script>
+}

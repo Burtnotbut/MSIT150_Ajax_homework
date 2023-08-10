@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Fetch";
+}
+
+<h1>Fetch</h1>
+<h2 id="myH"></h2>
+<img id="img1" class="w-25" />
+<ul id="ul1">
+
+@section Scripts{
+    <script>
+
+        //練習用fetch
+        /*
+        console.log(fetch('@Url.Content("/api/index")'));
+        //用fetch會回傳promise物件
+        */
+
+       //練習用fetch和.then
+       /*
+        fetch('@Url.Content("/api/index")')
+            //用fetch會回傳promise物件
+            .then(response => {
+                //用.then可以去抓裡頭的response和response.ok
+
+                console.log(response)
+                console.log(response.ok)
+
+               return response.text()  
+               //用text()方法，會得到return一個promise物件
+
+            })
+           .then(data => {
+                   console.log(data)
+            })
+    */
+
+        fetch('@Url.Content("/api/index")')
+
+            .then(response => response.text())
+            //用text()方法，會得到return一個promise物件
+
+            .then(data => {
+
+                document.querySelector('#myH').innerHTML = data;
+            })
+
+
+            //使用fetch與.then的寫法
+        /*
+        fetch('@Url.Content("/api/Cities")')
+            .then(response => response.json())
+                //用json()方法，會得到return一個promise物件
+
+            .then(datas => {
+                const lis = datas.map(city => `<li>${city}</li>`)
+                document.querySelector('#ul1').innerHTML = lis.join("")
+            })
+            */
+
+           //使用fetch與async await的寫法
+            async function loadJSON() {
+                const response = await fetch('@Url.Content("/api/Cities")')
+                const datas = await response.json()
+                const lis = datas.map(city => `<li>${city}</li>`)
+                document.querySelector('#ul1').innerHTML = lis.join("")
+
+            }
+
+           //使用fetch與.then的寫法
+            /*
+        fetch('@Url.Content("/api/GetImageByte/2")')
+            .then(response => response.blob())
+                //用blob()方法，會得到return一個promise物件
+            
+            .then(datas => {
+                
+                const myImg = document.querySelector('#img1');
+                //用querySelector將img1綁定給新常數myImg
+
+                myImg.src = URL.createObjectURL(datas);
+                //給myImg的來源src繫上圖片
+            })
+            */
+
+            //使用fetch與async await的寫法
+            async function loadImage() {
+                const response = await fetch('@Url.Content("/api/GetImageByte/2")')
+                const datas = await response.blob()
+                const myImg = document.querySelector('#img1');
+                myImg.src = URL.createObjectURL(datas);
+            }
+
+            loadJSON();
+            loadImage();
+    </script>
+}

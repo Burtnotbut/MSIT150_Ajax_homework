@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Promise";
+}
+
+<h1>Promise</h1>
+
+
+@section Scripts{
+    <script>
+
+      
+        //Promise物件的"建立"
+         /*
+        const promise = new Promise((resolve,reject)=>{
+             const num = Math.random() > 0.5 ? 1 : 0;
+             console.log(num)
+             if(num){
+                 resolve("成功")
+             }else{
+                 reject("錯誤")
+             }
+        })
+        */ 
+
+        //promise物件的"使用"
+        /*
+        promise
+            .then(data=>{
+                console.log(data)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+            .finally(()=>{
+                console.log("end")
+            })
+        */
+
+
+
+
+        //Promise物件的"建立"
+       //建立一個函式，會回傳promise物件
+        function printSomething(data) {
+
+            return new Promise((resolve, reject) => {
+                //回傳promise物件
+                
+                setTimeout(() => {
+                    resolve(data + 1)
+                }, 1000)
+                //停一秒，給什麼就加1，然後回傳
+            })
+        }
+
+        //promise物件的"使用"
+        //呼叫回傳promise物件的函式
+        printSomething("A")
+            .then(d => {
+                console.log(d)
+                return printSomething("B")
+            })
+            .then(d => {
+                console.log(d)
+                return printSomething("C")
+            })
+            .then(d => {
+                console.log(d)
+            })
+
+
+
+    </script>
+
+
+
+}

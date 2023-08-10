@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<table id="empTable" class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年資</th>
+            <th>薪水</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section Styles{
+    <style>
+
+        /*練習css修改背景顏色
+                p {
+                    background-color: yellow
+                }
+        */
+
+    </style>
+
+}
+
+@section  Scripts{
+    <script>
+
+        /*練習滑鼠滑進滑出
+        $('.display-4').on('mouseover', function () {
+        $(this).css('color','blue')
+    }).on('mouseout', function(){
+        $(this).css('color','black')
+    })
+    */
+
+   /*練習讀取Json的資料
+        const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        { "name": "Jack", "workYears": 5, "salary": 40000 },
+        { "name": "Mary", "workYears": 7, "salary": 45000 }];
+        ////emps => array
+        //console.log(emps[1]); // { "name": "Jack", "workYears": 5, "salary": 40000 }
+        ////emps[1] => object
+        //console.log(emps[1].workYears); //5
+
+        for(let i=0,max=emps.length;i<max;i++){
+            console.log(emps[i].name)
+            console.log(emps[i].workYears)
+            console.log(emps[i].salary)
+        }
+       */ 
+
+
+        const emp = {
+            "employees": [
+                { "name": "Tom", "workYears": 3, "salary": 35000 },
+                { "name": "Jack", "workYears": 5, "salary": 40000 },
+                { "name": "Mary", "workYears": 7, "salary": 45000 }
+            ]
+        };
+
+        /*練習讀取Json的資料
+      for(let i = 0, max = emp.employees.length;i<max;i++) {
+        console.log(emp.employees[i].name)
+        console.log(emp.employees[i].workYears)
+        console.log(emp.employees[i].salary)
+        }
+        */
+
+        const datas = emp.employees.map(employee => {
+            const { name, workYears, salary } = employee
+            /*上面使用解構方法，請取一樣的名稱，方便電腦抓到物件資料 */
+
+            return (
+                ` <tr>
+                         <td>${name}</td>
+                        <td>${workYears}</td>
+                        <td>${salary}</td>
+                    </tr>
+                    `
+            )
+
+        })
+
+        //練習用JavaScript的寫法，來賦予html值
+        //document.querySelector('#empTable>tbody').innerHTML = datas.join("")
+                //用id=empTable去找到table，用>去找到其下方的tbody 
+                //因為<tr></tr>有三個行，所以加入空字串""去連接 
+
+        //作業一 改用 jQuery 完成JSON資料讀取並顯示在表格中的練習
+        $('#empTable > tbody').html(datas.join(''));
+
+    </script>
+
+}
