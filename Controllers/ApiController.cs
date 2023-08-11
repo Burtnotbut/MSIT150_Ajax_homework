@@ -74,10 +74,20 @@ namespace MSIT150Site.Controllers
             return Content("新增成功!!");
         }
 
-        //作業試寫
+        //作業三 檢查帳號是否存在的CheckAccount Action
         public IActionResult CheckAccount(Members member)
         {
-            return Content("新增成功!!");
+            string abc = member.Name;
+
+            var answer = _context.Members.Where(a => a.Name == abc);
+            if ( answer.Any())
+            {
+                return Content("此帳戶已被使用");
+            }
+            else
+            {
+                return Content("此帳戶尚未註冊");
+            }
 
         }
 

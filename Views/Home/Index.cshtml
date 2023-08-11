@@ -5,6 +5,12 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    
+    @Html.Partial("Partial1")
+    <!-- .Partail("Partial View 的名稱")-->
+    
+    @Html.Partial("Partial2")
+    <!--可以觀察到這裡的Partial2沒有經過控制器，所以裡頭的ViewBag無效-->
 </div>
 
 <table id="empTable" class="table table-bordered table-hover table-striped">

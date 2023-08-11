@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+<button id="buttonGet" class="btn btn-primary">get</button>
+<button id="buttonPost" class="btn btn-secondary">post</button>
+<button id="buttonJson" class="btn btn-success">getJson</button>
+<button id="buttonLoad" class="btn btn-info">load</button>
+<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonCors" class="btn btn-danger">cors</button>
+<div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+
+ <ul></ul>
+
+</div>
+@section Scripts{
+    <script>
+        $('#buttonGet').click(function () {
+            $.get('@Url.Content("~/api/getdemo")', { "name": "Tom", "age": 30 }, function (data) {
+                //第一個放路徑，第二個放傳入路徑的參數
+                // 第三個是拿到回傳結果data後，可寫下要做的事情
+                //data 會收到伺服器端回傳的結果
+                $('#divAlert').text(data)
+            })
+        })
+
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/api/getdemo")', { "name": "Mary", "age": 28 }, function (data) {
+                //第一個放路徑，第二個放傳入路徑的參數
+                // 第三個是拿到回傳結果data後，可寫下要做的事情
+                //data 就會收到伺服器端回傳的結果
+                $('#divAlert').text(data)
+            })
+        })
+
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/api/Cities")', function (datas) {
+                //第一個放路徑，第二個是拿到回傳結果data後，可寫下要做的事情
+                //datas 就會收到伺服器端回傳的結果
+
+                const theUl = $('#divAlert>ul');
+                //theUl是指向id為divAlert底下的ul標籤
+                const docFrag = $(document.createDocumentFragment())
+                //建立一個空元素(容器)docFrag，來裝入append物件item
+
+                $.each(datas, function (idx, city) {
+
+                    const item = $('<li></li>').text(city)
+                    //替抓到的城市city資料，改裝成html的格式
+
+                    docFrag.append(item)
+                    //在each迴圈中，將每個item裝入append容器docFrag中
+                })
+                theUl.html(docFrag)
+            })
+        })
+
+        $('#buttonLoad').click(function () {
+            $('#divAlert').load('@Url.Content("~/home/Partial2")')
+            //載入load部分頁面Partial2，會經過控制器，故ViewBag資料跑得出來
+
+            //練習載入load部分頁面
+            /*
+            $('#divAlert').load('@Url.Content("~/home/Partial1")')
+            //載入Partial1的部分頁面PartialView
+            */
+        })
+
+        $('#buttonAjax').click(function () {
+            $.ajax({
+                'url': '@Url.Content("~/api/Cities")',  
+                //'@Url.Content("~/api/getdemo")',
+                'type': 'get',  //post
+                'dataType': 'json'
+
+                //用.ajax可以放入很多資料型態
+                /*
+                'data': { "name": "Fiona", "age": 32},
+                'contentType':'json'
+                'success':function(data){
+                    $('#divAlert').text(data)
+                }
+                */
+
+            })
+            .done(function (data) {
+
+                const theUl = $('#divAlert>ul');
+                 //theUl是指向id為divAlert底下的ul標籤
+
+                const docFrag = $(document.createDocumentFragment())
+                //建立一個空元素(容器)docFrag，來裝入append物件item
+
+                $.each(data, function (idx, city) {
+                    const item = $('<li></li>').text(city)
+                    //替抓到的城市city資料，改裝成html的格式
+
+                    docFrag.append(item)
+                    //在each迴圈中，將每個item裝入append容器docFrag中
+
+                })
+                theUl.html(docFrag)
+            })
+        })
+
+        $('#buttonCors').click(function () {
+            $('#divAlert').text("CORs")
+        })
+
+    </script>
+}

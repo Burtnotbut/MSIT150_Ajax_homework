@@ -8,6 +8,9 @@
 <select id="selectDistrict"></select>
 <select id="selectRoad"></select>
 <div id="div1" class="alert alert-info"> </div>
+<hr />
+<select id="selectSixCity"></select>
+<span id="span1" class="d-block alert alert-info"></span>
 
 
 @section Styles{
@@ -20,6 +23,9 @@
         const selDistrict = document.querySelector('#selectDistrict');
         const selRoad = document.querySelector('#selectRoad');
         const theDiv = document.querySelector('#div1');
+        
+        const sixCities = ["台北市", "新北市", "桃園市", "台中市", "台南市", "高雄市"]
+        const sixSpan = document.querySelector('#span1');
 
         //一般function的寫法
         /*
@@ -118,6 +124,23 @@
         function show() {
             theDiv.textContent = `${selDistrict.value} ${selRoad.value}`;
         }
+
+        //作業四:載入六都直轄市，秀在span上
+        loadSixCity()
+        //載入六都直轄市，放進select裡
+        async function loadSixCity() {
+            const sixcities = sixCities.map(city => `<option value='${city}'>${city}</option>`)
+            selectSixCity.innerHTML = sixcities.join("");
+            showSpan()
+        }
+        //若使用者自行點選城市
+        selectSixCity.addEventListener('change', showSpan)
+        //將資料顯示在span標籤上
+        function showSpan() {
+            sixSpan.textContent = `${selectSixCity.value} `;
+        }
+
+
 
 
     </script>

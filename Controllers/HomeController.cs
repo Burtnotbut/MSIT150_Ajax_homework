@@ -58,6 +58,31 @@ namespace MSIT150Site.Controllers
             return View();
         }
 
+        //練習不同的寫法的頁面
+        public IActionResult History()
+        {
+            return View();
+        }
+
+        //練習jQuery方法的頁面
+        public IActionResult jQuery()
+        {
+            return View();
+        }
+
+        //練習Partial1載入部分的頁面
+        public IActionResult Partial1()
+        {
+            return PartialView();
+        }
+
+        //練習Partial2載入控制器HomeController的ViewBag資料
+        public IActionResult Partial2()
+        {
+            ViewBag.message = "來自Action的內容";
+            return PartialView();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -3,11 +3,10 @@
     ViewData["Title"] = "Travel";
 }
 
-<div class="card" style="width: 18rem;" id="div2">
-
-</div>
 
 <h1>Travel</h1>
+@*<div class="alert alert-info" id="div2"></div>*@
+
 <div class="alert alert-info" id="div1"></div>
 
 
@@ -29,16 +28,14 @@
         const p = spots.CommonFormat.Section;
         const imageURL = p[0].file.img[0].text;
 
-        // 假設你已經載入了 JSON 資料到 spots 變數中
+/*        
         const datas = spots.CommonFormat.Section.map(employee => {
-            const { stitle, xbody, xurl, file, img } = employee;
-            
-
+            const { stitle, xbody, xurl} = employee;
 
             return(
                 `
              <div class="card" style="width: 18rem;">
-            <img src="${img } " class="card-img-top">
+                    <img src="${imageURL} " class="card-img-top">
             <div class="card-body">
                         <h2 class="card-title" > ${ stitle } </h2>
                         < p class="card-text" > ${ xbody } </p>
@@ -49,34 +46,35 @@
             )
         });
 
-        document.querySelector('#div1').innerHTML = datas
 
-        const data2 = spots.CommonFormat.Section.forEach(many => {
-            const img2 = many.file.img[0].text;
-            const stitle2 = many.stitle;
-            const xbody = many.xbody;
-            const xurl2 = many.xurl;
+        document.querySelector('#div1').innerHTML = datas.join("")
+*/
+        
+        const dat = spots.CommonFormat.Section.map(many => {
+            const im = many.file.img[0].text;
+            const stitl = many.stitle;
+            const xbod = many.xbody;
+            const xur = many.xurl;
+
+            console.log(xbod)
 
             return (
                 `
                      <div class="card" style="width: 18rem;">
-                    <img src="${img2} " class="card-img-top">
+                                    <img src="${im} " class="card-img-top">
                     <div class="card-body">
-                                <h2 class="card-title" > ${stitle2} </h2>
-                                < p class="card-text" > ${xbody2} </p>
-                                 <a href="${xurl2}" class="btn btn-primary">連結</a>
+                                        <h2 class="card-title" > ${stitl} </h2>
+                                        < p class="card-text" > ${xbod} </p>
+                                         <a href="${xur}" class="btn btn-primary">連結</a>
                     </div>
                     </div>
                         `
             )
         });
 
-        document.querySelector('#div2').innerHTML = data2
 
+        document.querySelector('#div1').innerHTML = dat.join("")
 
-        //document.querySelector('#div2').innerHTML = `<h3>${data}</h3>`
-
-            //< img src = "" class="card-img-top" id = "img1" >
 
 
     </script>
