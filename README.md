@@ -6,10 +6,9 @@
 - **使用技術**: C#、ASP.NET Core MVC<br>
 - **製作日期**: 2023年9月<br>
 - **製作內容**: 網站前後端整合，包含會員管理、地址管理、資料呈現與 Ajax 互動。<br>
-  
+</span>
 ## 📷 預覽
 <img width="1365" height="720" alt="image" src="https://github.com/user-attachments/assets/6b6cc4a5-2e28-4ae0-b35d-a397268ccc0f" />
-</span>
 
 <h1>📡 Ajax_homework</h1>
 <span style="font-size:18px;">
