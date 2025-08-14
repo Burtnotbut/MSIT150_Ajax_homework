@@ -13,6 +13,7 @@
 <img width="1365" height="720" alt="image" src="https://github.com/user-attachments/assets/6b6cc4a5-2e28-4ae0-b35d-a397268ccc0f" />
 </span>
 
+<br><br><br><br>
 
 <h1>📡 Ajax_homework</h1>
 <span style="font-size:18px;">
